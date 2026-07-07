@@ -1,0 +1,36 @@
+html, body {
+  margin: 0; padding: 0; background: transparent; overflow: hidden;
+  font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  -webkit-user-select: none; user-select: none;
+}
+#pill {
+  display: flex; align-items: center; gap: 10px;
+  margin: 12px auto; width: 190px; height: 36px; padding: 0 16px;
+  border-radius: 20px; box-sizing: border-box;
+  background: rgba(28, 28, 30, 0.82);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  color: #f5f5f7; font-size: 13px; font-weight: 500;
+  transition: opacity 0.15s ease;
+  overflow: hidden;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #8e8e93; flex: 0 0 auto; }
+#label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* States */
+#pill.recording   .dot { background: #ff453a; animation: pulse 1s infinite; }
+#pill.transcribing .dot { background: #ffd60a; animation: pulse 0.8s infinite; }
+#pill.done        .dot { background: #32d74b; }
+#pill.error       .dot { background: #ff453a; }
+#pill.recording   { box-shadow: 0 6px 22px rgba(255, 69, 58, 0.35); }
+
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 1; }
+  50%  { transform: scale(1.5); opacity: 0.55; }
+  100% { transform: scale(1);   opacity: 1; }
+}

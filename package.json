@@ -1,0 +1,88 @@
+{
+  "name": "whisperkey",
+  "version": "1.0.0",
+  "description": "Offline hold-to-talk voice dictation for macOS",
+  "license": "MIT",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "verify": "node scripts/verify-v1.js && node scripts/test-recorder.js && node scripts/test-asr-args.js && node scripts/test-asr-framework.js && node scripts/test-hotkey-paths.js && node scripts/test-hotkey-config.js && node scripts/test-hotkey-settings-ui.js && node scripts/test-native-paste.js && node scripts/test-injector-native.js && node scripts/test-after-pack.js && node scripts/test-install-location.js && node scripts/test-diagnostics.js && node scripts/test-diagnostic-actions.js && node scripts/test-startup-flow.js && node scripts/test-overlay-layout.js",
+    "build:native-paste": "bash scripts/build-native-paste.sh",
+    "build:modifier-monitor": "bash scripts/build-modifier-monitor.sh",
+    "setup:whisper": "bash scripts/setup-whisper.sh",
+    "setup:model": "bash scripts/download-model.sh",
+    "bundle:ffmpeg": "bash scripts/bundle-ffmpeg.sh",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:local": "bash scripts/create-local-dmg.sh"
+  },
+  "dependencies": {
+    "node-global-key-listener": "^0.3.0"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.keychron.whisperkey",
+    "productName": "WhisperKey",
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity",
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "LSUIElement": true,
+        "NSMicrophoneUsageDescription": "WhisperKey records your voice locally to transcribe dictation.",
+        "NSAppleEventsUsageDescription": "WhisperKey can send a paste command to the current app after local transcription."
+      }
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "native/build/Release/**/*.node",
+      "scripts/**/*",
+      "package.json"
+    ],
+    "afterPack": "scripts/after-pack.js",
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/node-global-key-listener/bin/**/*",
+      "native/build/Release/**/*.node"
+    ],
+    "extraResources": [
+      {
+        "from": "vendor/whisper",
+        "to": "whisper",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/ffmpeg",
+        "to": "ffmpeg",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "vendor/modifier-monitor",
+        "to": "modifier-monitor",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "models",
+        "to": "models",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
+  }
+}

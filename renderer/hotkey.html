@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; style-src 'self'; script-src 'self';" />
+  <link rel="stylesheet" href="hotkey.css" />
+</head>
+<body>
+  <main>
+    <h1>Change Hotkey</h1>
+    <div id="combo" class="combo">Press a key or shortcut</div>
+    <div id="hint">Hold the keys you want to use, then click Save.</div>
+    <div id="error"></div>
+    <footer>
+      <button id="cancel" type="button">Cancel</button>
+      <button id="save" type="button" disabled>Save</button>
+    </footer>
+  </main>
+  <script src="hotkey.js"></script>
+</body>
+</html>
