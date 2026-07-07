@@ -1,0 +1,11 @@
+node_modules/
+dist/
+vendor/
+native/build/
+models/*.bin
+*.log
+*.dmg
+*.zip
+*.blockmap
+.DS_Store
+config.json
