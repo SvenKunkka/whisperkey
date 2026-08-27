@@ -8,8 +8,12 @@ const paths = require('../src/paths');
 const { createAsrEngine, availableAsrEngines } = require('../src/asr');
 const { getAsrEngineSpec, modelFilename } = require('../src/asr-models');
 
-const fakeApp = { isPackaged: true };
-const resourcesPath = '/Applications/WhisperKey.app/Contents/Resources';
+const userDataPath = '/Users/example/Library/Application Support/whisperkey';
+const fakeApp = { isPackaged: true, getPath: (name) => {
+  assert.strictEqual(name, 'userData');
+  return userDataPath;
+} };
+const resourcesPath = '/tmp/whisperkey-test/WhisperKey.app/Contents/Resources';
 const previousResourcesPath = process.resourcesPath;
 process.resourcesPath = resourcesPath;
 
@@ -30,7 +34,7 @@ try {
       binPath: path.join(resourcesPath, 'whisper', 'whisper-cli'),
       model: 'small',
       modelLabel: 'small',
-      modelPath: path.join(resourcesPath, 'models', 'ggml-small.bin')
+      modelPath: path.join(userDataPath, 'models', 'ggml-small.bin')
     },
     'runtime paths should come from the engine/model catalog'
   );

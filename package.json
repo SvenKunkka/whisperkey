@@ -75,13 +75,6 @@
         "filter": [
           "**/*"
         ]
-      },
-      {
-        "from": "models",
-        "to": "models",
-        "filter": [
-          "**/*"
-        ]
       }
     ]
   }

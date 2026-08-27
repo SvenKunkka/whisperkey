@@ -18,6 +18,7 @@ const log = require('./logger');
 const diagnostics = require('./diagnostics');
 const diagnosticActions = require('./diagnostic-actions');
 const { shouldWarnAboutInstallLocation } = require('./install-location');
+const { ensureModelAvailable } = require('./model-manager');
 
 app.commandLine.appendSwitch('disable-features', 'MediaSessionService');
 if (process.platform === 'darwin' && app.dock) app.dock.hide(); // menu-bar-only app
@@ -316,6 +317,26 @@ app.whenReady().then(async () => {
   recorder.on('warn', w => log.warn('ffmpeg: ' + w));
 
   asrRuntime = paths.asrRuntime(app, cfg);
+  try {
+    const modelStatus = await ensureModelAvailable({ cfg, runtime: asrRuntime, dialog, log });
+    if (!modelStatus.ok) {
+      app.quit();
+      return;
+    }
+  } catch (e) {
+    log.error('model setup: ' + e.message);
+    await dialog.showMessageBox({
+      type: 'error',
+      title: 'Model Download Failed',
+      message: 'WhisperKey could not download the speech model',
+      detail: e.message,
+      buttons: ['Quit'],
+      noLink: true
+    });
+    app.quit();
+    return;
+  }
+
   asrEngine = createAsrEngine({
     runtime: asrRuntime,
     language: cfg.language,

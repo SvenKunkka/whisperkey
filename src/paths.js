@@ -26,11 +26,28 @@ function asrBinaryPath(app, engine) {
   return candidates.find(fs.existsSync) || candidates[0];
 }
 
-function modelPath(app, model, engine = 'whisper.cpp') {
+function userModelDir(app) {
+  if (!app.isPackaged || typeof app.getPath !== 'function') return null;
+  return path.join(app.getPath('userData'), 'models');
+}
+
+function resourceModelDir(app, engine = 'whisper.cpp') {
   const b = base(app);
   const spec = getAsrEngineSpec(engine);
-  const dir = path.join(b, spec.modelResourceDir);
-  return path.join(dir, modelFilename(engine, model));
+  return path.join(b, spec.modelResourceDir);
+}
+
+function modelSearchPaths(app, model, engine = 'whisper.cpp') {
+  const filename = modelFilename(engine, model);
+  const resourcePath = path.join(resourceModelDir(app, engine), filename);
+  const userDir = userModelDir(app);
+  if (!userDir) return [resourcePath];
+  return [path.join(userDir, filename), resourcePath];
+}
+
+function modelPath(app, model, engine = 'whisper.cpp') {
+  const candidates = modelSearchPaths(app, model, engine);
+  return candidates.find(fs.existsSync) || candidates[0];
 }
 
 function asrRuntime(app, cfg) {
@@ -58,4 +75,13 @@ function ffmpegPath(app) {
   return resolveBinary('ffmpeg', { bundledDirs: [bundledDir] });
 }
 
-module.exports = { whisperBin, modelPath, asrBinaryPath, asrRuntime, ffmpegPath };
+module.exports = {
+  whisperBin,
+  modelPath,
+  modelSearchPaths,
+  userModelDir,
+  resourceModelDir,
+  asrBinaryPath,
+  asrRuntime,
+  ffmpegPath
+};

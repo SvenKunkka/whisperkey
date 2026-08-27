@@ -10,12 +10,12 @@ const ASR_ENGINES = Object.freeze({
     modelPrefix: 'ggml-',
     modelExtension: '.bin',
     models: Object.freeze({
-      tiny: Object.freeze({ label: 'tiny', speed: 'fastest', quality: 'low' }),
-      base: Object.freeze({ label: 'base', speed: 'fast', quality: 'basic' }),
-      small: Object.freeze({ label: 'small', speed: 'balanced', quality: 'good' }),
-      medium: Object.freeze({ label: 'medium', speed: 'slower', quality: 'better' }),
-      'large-v3': Object.freeze({ label: 'large-v3', speed: 'slowest', quality: 'best' }),
-      'large-v3-turbo': Object.freeze({ label: 'large-v3-turbo', speed: 'slower', quality: 'best' })
+      tiny: Object.freeze({ label: 'tiny', speed: 'fastest', quality: 'low', size: '~75 MB' }),
+      base: Object.freeze({ label: 'base', speed: 'fast', quality: 'basic', size: '~142 MB' }),
+      small: Object.freeze({ label: 'small', speed: 'balanced', quality: 'good', size: '~465 MB' }),
+      medium: Object.freeze({ label: 'medium', speed: 'slower', quality: 'better', size: '~1.5 GB' }),
+      'large-v3': Object.freeze({ label: 'large-v3', speed: 'slowest', quality: 'best', size: '~3.1 GB' }),
+      'large-v3-turbo': Object.freeze({ label: 'large-v3-turbo', speed: 'slower', quality: 'best', size: '~1.5 GB' })
     })
   })
 });
@@ -39,6 +39,10 @@ function modelFilename(engine, model) {
   return `${spec.modelPrefix}${model}${spec.modelExtension}`;
 }
 
+function modelDownloadUrl(engine, model) {
+  return `https://huggingface.co/ggerganov/whisper.cpp/resolve/main/${modelFilename(engine, model)}`;
+}
+
 function availableEngines() {
   return Object.keys(ASR_ENGINES);
 }
@@ -52,6 +56,7 @@ module.exports = {
   getAsrEngineSpec,
   getModelSpec,
   modelFilename,
+  modelDownloadUrl,
   availableEngines,
   availableModels
 };

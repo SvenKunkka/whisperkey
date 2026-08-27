@@ -56,8 +56,7 @@ test('packaged resource layout matches runtime path resolution', () => {
     [
       { from: 'vendor/whisper', to: 'whisper', filter: ['**/*'] },
       { from: 'vendor/ffmpeg', to: 'ffmpeg', filter: ['**/*'] },
-      { from: 'vendor/modifier-monitor', to: 'modifier-monitor', filter: ['**/*'] },
-      { from: 'models', to: 'models', filter: ['**/*'] }
+      { from: 'vendor/modifier-monitor', to: 'modifier-monitor', filter: ['**/*'] }
     ]
   );
   assert.ok(
