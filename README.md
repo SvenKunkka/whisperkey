@@ -1,3 +1,7 @@
+<!-- SVENKUNKKA-README-NAV:BEGIN -->
+[中文项目说明](#project-overview-zh) · [English overview](#project-overview-en) · [维护者 X / Maintainer on X](https://x.com/Svenu1s5)
+<!-- SVENKUNKKA-README-NAV:END -->
+
 # WhisperKey
 
 Offline, hold-to-talk voice dictation for macOS. **Hold `⌘ + ⇧` → speak → release → text appears at your cursor.** All speech-to-text runs locally via [whisper.cpp](https://github.com/ggml-org/whisper.cpp). No cloud, no network, no data leaves the device.
@@ -289,3 +293,30 @@ voice-input/
 ```
 
 MIT.
+
+
+---
+
+<!-- SVENKUNKKA-PROJECT-INFO:BEGIN -->
+
+<a id="project-overview-zh"></a>
+## 中文项目说明
+
+macOS 菜单栏离线语音输入工具，按住快捷键录音、松开后通过 whisper.cpp 在本地转写，再把文字粘贴到当前输入位置。提供状态浮层、快捷键与模型配置及启动诊断。
+
+**使用入口：** 安装 Node.js、CMake 和 ffmpeg 后，依次运行 `npm install`、`npm run setup:whisper`、`npm run setup:model`，再用 `npm start` 启动。
+
+**范围说明：** 初次准备需下载依赖和模型；运行需麦克风及辅助功能权限。剪贴板恢复不覆盖 Finder 文件引用等所有数据类型。
+
+<a id="project-overview-en"></a>
+## English project overview
+
+An offline macOS menu-bar dictation tool: hold a shortcut to record, release to transcribe locally with whisper.cpp, then paste text into the focused field. It includes a status overlay, configurable shortcuts and models, and startup diagnostics.
+
+**Getting started:** Install Node.js, CMake and ffmpeg, then run `npm install`, `npm run setup:whisper`, `npm run setup:model` and finally `npm start`.
+
+**Scope:** Initial setup downloads dependencies and models. Runtime requires microphone and Accessibility permissions. Clipboard restoration does not cover every type, such as Finder file references.
+
+**仓库维护者 / Repository maintainer:** [SvenKunkka](https://github.com/SvenKunkka) · [X / Twitter](https://x.com/Svenu1s5)
+
+<!-- SVENKUNKKA-PROJECT-INFO:END -->
